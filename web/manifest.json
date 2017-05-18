@@ -1,0 +1,12 @@
+{
+  "name": "Breadhead Monitor",
+  "short_name": "BH Mon",
+  "icons": [{
+    "src": "images/icon_512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "start_url": "/",
+  "display": "standalone",
+  "gcm_sender_id": "BLzNMA6TLEF9Rs9FSJKgPyrBVFmQZXo1_oWPKKSQqRNU9Dker69j7zEQGuGYCAMc4A17CvpXxiuavBhIZz-ZlZE"
+}

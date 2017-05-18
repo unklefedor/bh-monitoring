@@ -3,6 +3,7 @@
 namespace app\components\eventer\factories;
 
 use app\components\eventer\reactors\EventEmailReactor;
+use app\components\eventer\reactors\EventPushReactor;
 
 /**
  * EventReactorFactory.php
@@ -26,5 +27,15 @@ class EventReactorFactory
     public static function getEventEmailReactor()
     {
         return new EventEmailReactor();
+    }
+
+    /**
+     * getEventPushReactor
+     *
+     * @return EventPushReactor
+     */
+    public static function getEventPushReactor()
+    {
+        return new EventPushReactor();
     }
 }

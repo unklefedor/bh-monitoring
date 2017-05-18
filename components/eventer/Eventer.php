@@ -54,11 +54,25 @@ class Eventer
     /**
      * react
      *
+     * @param array $reactors
+     *
+     * @return void
+     */
+    public function react($reactors = [])
+    {
+        foreach ($reactors as $reactor){
+            $this->runReactor($reactor);
+        }
+    }
+
+    /**
+     * runReactor
+     *
      * @param EventReactorInterface $reactor
      *
      * @return void
      */
-    public function react(EventReactorInterface $reactor)
+    private function runReactor(EventReactorInterface $reactor)
     {
         $reactor->run($this->event);
     }

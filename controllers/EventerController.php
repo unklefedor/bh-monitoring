@@ -50,6 +50,8 @@ class EventerController extends Controller
     /**
      * actionPushevent
      *
+     * @TODO
+     *
      * @return string
      */
     public function actionPushevent()
@@ -57,7 +59,10 @@ class EventerController extends Controller
         try {
             (new Eventer())
                 ->setEvent(\Yii::$app->request->post())
-                ->react(EventReactorFactory::getEventEmailReactor());
+                ->react([
+                    EventReactorFactory::getEventEmailReactor(),
+                    EventReactorFactory::getEventPushReactor()
+                ]);
 
         } catch (EventerException $e){
             return $e->getMessage();
@@ -67,6 +72,8 @@ class EventerController extends Controller
     /**
      * actionLog
      *
+     * @TODO
+     *
      * @return string
      */
     public function actionLog()
@@ -75,6 +82,8 @@ class EventerController extends Controller
 
     /**
      * Displays homepage.
+     *
+     * @TODO
      *
      * @return string
      */

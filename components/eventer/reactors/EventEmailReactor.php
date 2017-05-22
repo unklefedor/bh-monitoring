@@ -20,6 +20,7 @@ namespace app\components\eventer\reactors;
 
 use app\components\eventer\EventerException;
 use app\components\eventer\service\Event;
+use app\components\mailer\config\EventMailerConfig;
 use app\components\mailer\MailManager;
 use app\components\mailer\MailManagerException;
 
@@ -42,7 +43,7 @@ class EventEmailReactor implements EventReactorInterface
     public function run(Event $event)
     {
         try {
-            (new MailManager())
+            (new MailManager(new EventMailerConfig()))
                 ->setHtmlBody($event->getText())
                 ->send();
         } catch (MailManagerException $e) {

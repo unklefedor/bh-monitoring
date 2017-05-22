@@ -14,6 +14,7 @@
 
 namespace app\components\tester\notifiers;
 
+use app\components\mailer\config\EventMailerConfig;
 use app\components\mailer\MailManager;
 use app\components\tester\checkers\TestResponseCheckerInterface;
 use app\components\tester\TesterException;
@@ -71,7 +72,7 @@ class TestEmailNotifier implements TestNotifierInterface
             $data .= 'Debug: '.$checker->getDebug().'<br/>';
         }
 
-        (new MailManager())
+        (new MailManager(new EventMailerConfig()))
             ->setHtmlBody($data)
             ->send();
     }

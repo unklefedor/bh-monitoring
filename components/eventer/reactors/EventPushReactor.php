@@ -18,7 +18,11 @@ namespace app\components\eventer\reactors;
  * Ответ на евент
  */
 
+use app\components\eventer\EventerException;
 use app\components\eventer\service\Event;
+use app\components\pusher\PushManager;
+use app\components\pusher\PushManagerException;
+use app\components\pusher\PushMessageFactory;
 
 /**
  * EventEmailReactor
@@ -33,11 +37,22 @@ class EventPushReactor implements EventReactorInterface
      * run
      *
      * @param Event $event
-     *
      * @return mixed
+     * @throws EventerException
      */
     public function run(Event $event)
     {
-        // TODO: Implement run() method.
+        try {
+            $pushManager = new PushManager();
+
+            $data['date'] = date('Y:m:d H:i:s');
+            $date['link'] = $event->getUrl();
+            $date['text'] = $event->getText();
+
+            $pushMessage = PushMessageFactory::getAvailabilityMessage($data);
+            $pushManager->pushToAll($pushMessage);
+        } catch (PushManagerException $e) {
+            throw new EventerException('PushMessage Init Error');
+        }
     }
 }

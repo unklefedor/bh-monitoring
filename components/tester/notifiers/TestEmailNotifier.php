@@ -14,6 +14,7 @@
 
 namespace app\components\tester\notifiers;
 
+use app\components\mailer\MailManager;
 use app\components\tester\checkers\TestResponseCheckerInterface;
 use app\components\tester\TesterException;
 
@@ -70,10 +71,7 @@ class TestEmailNotifier implements TestNotifierInterface
             $data .= 'Debug: '.$checker->getDebug().'<br/>';
         }
 
-        $this->mailer->compose()
-            ->setFrom('monitor@breadhead.ru')
-            ->setTo($this->email)
-            ->setSubject('Monitor notification')
+        (new MailManager())
             ->setHtmlBody($data)
             ->send();
     }

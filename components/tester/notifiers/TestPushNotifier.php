@@ -43,15 +43,15 @@ class TestPushNotifier implements TestNotifierInterface
         $data['link'] = $checker->getUrl();
 
         if ($checker->getError()) {
-            $data['text'] = 'Error: '.$checker->getError();
+            $data['text'] = 'Error: ' . $checker->getError();
         }
 
         if ($checker->getWarn()) {
-            $data['text'] = 'Warn: '.$checker->getWarn();
+            $data['text'] = 'Warn: ' . $checker->getWarn();
         }
 
         if ($checker->getDebug()) {
-            $data['text'] = 'Debug: '.$checker->getDebug();
+            $data['text'] = 'Debug: ' . $checker->getDebug();
         }
 
         try {
@@ -59,7 +59,7 @@ class TestPushNotifier implements TestNotifierInterface
 
             $pushManager = new PushManager();
             $pushManager->pushToAll($pushMessage);
-        }catch (PushManagerException $e) {
+        } catch (PushManagerException $e) {
             throw new TesterException('PushMessage Init Error');
         }
     }

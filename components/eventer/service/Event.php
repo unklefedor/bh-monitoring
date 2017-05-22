@@ -23,6 +23,7 @@ use app\components\eventer\EventerException;
  */
 class Event
 {
+
     private $level = '';
     private $type = '';
     private $code = 0;
@@ -109,4 +110,21 @@ class Event
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
 }

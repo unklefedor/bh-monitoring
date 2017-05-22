@@ -18,7 +18,10 @@ namespace app\components\eventer\reactors;
  * Ответ на евент
  */
 
+use app\components\eventer\EventerException;
 use app\components\eventer\service\Event;
+use app\components\mailer\MailManager;
+use app\components\mailer\MailManagerException;
 
 /**
  * EventEmailReactor
@@ -33,11 +36,17 @@ class EventEmailReactor implements EventReactorInterface
      * run
      *
      * @param Event $event
-     *
      * @return mixed
+     * @throws EventerException
      */
     public function run(Event $event)
     {
-        // TODO: Implement run() method.
+        try {
+            (new MailManager())
+                ->setHtmlBody($event->getText())
+                ->send();
+        } catch (MailManagerException $e) {
+            throw new EventerException('PushMessage Init Error');
+        }
     }
 }

@@ -15,42 +15,11 @@ namespace app\components\mailer\config;
 class EventMailerConfig implements MailManagerConfigInterface
 {
 
-    private $from;
-    private $to;
+    private $from = 'monitor@breadhead.ru';
+    private $to = ['unklefedor@gmail.com', 'mariokyy@breadhead.com'];
     private $htmlBody;
-    private $subject;
+    private $subject = 'Monitor notification';
 
-    /**
-     * @param mixed $from
-     */
-    public function setFrom($from)
-    {
-        $this->from = $from;
-    }
-
-    /**
-     * @param mixed $to
-     */
-    public function setTo($to)
-    {
-        $this->to = $to;
-    }
-
-    /**
-     * @param mixed $htmlBody
-     */
-    public function setHtmlBody($htmlBody)
-    {
-        $this->htmlBody = $htmlBody;
-    }
-
-    /**
-     * @param mixed $subject
-     */
-    public function setSubject($subject)
-    {
-        $this->subject = $subject;
-    }
 
     /**
      * @return mixed

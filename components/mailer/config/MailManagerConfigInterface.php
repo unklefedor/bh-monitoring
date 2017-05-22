@@ -15,11 +15,6 @@ namespace app\components\mailer\config;
  */
 interface MailManagerConfigInterface
 {
-    public function setFrom($from);
-    public function setHtmlBody($htmlBody);
-    public function setTo($to);
-    public function setSubject($subject);
-
     public function getFrom();
     public function getHtmlBody();
     public function getTo();

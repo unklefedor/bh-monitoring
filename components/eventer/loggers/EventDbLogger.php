@@ -13,6 +13,7 @@
  * @link       http://breadhead.ru
  */
 
+namespace app\components\eventer\loggers;
 
 use yii\db\Query;
 

@@ -12,6 +12,10 @@
  * @version    SVN: $Id$
  * @link       http://breadhead.ru
  */
+
+
+namespace app\components\eventer\loggers;
+
 class LogManager
 {
     private $logger = null;

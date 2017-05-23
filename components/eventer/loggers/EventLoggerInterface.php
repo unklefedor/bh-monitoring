@@ -12,6 +12,12 @@
  * @version    SVN: $Id$
  * @link       http://breadhead.ru
  */
+
+namespace app\components\eventer\loggers;
+/**
+ * Interface EventLoggerInterface
+ * @package app\components\tester\loggers
+ */
 interface EventLoggerInterface
 {
     /**

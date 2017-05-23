@@ -29,6 +29,7 @@ class EventDbLogger implements EventLoggerInterface
      */
     public function getLogs()
     {
-        return (new Query())->select('*')->from($this->tablename)->all();
+
+        return (new Query())->select('*')->from($this->tablename)->orderBy('timestamp DESC')->all();
     }
 }

@@ -1,5 +1,8 @@
 <a href="/tester/testmanager">Менеджер тестов</a><br/>
 <a href="/tester/log">Логи</a>
+
+<a href="/eventer">EВЕНТЕР</a>
+
 <div>
     <h2>Тест доступности</h2>
 

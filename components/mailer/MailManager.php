@@ -10,6 +10,12 @@ namespace app\components\mailer;
 
 use app\components\mailer\config\MailManagerConfigInterface;
 
+/** MailManager
+ *
+ * Class MailManager
+ *
+ * @package app\components\mailer
+ */
 class MailManager
 {
     private $mailer;
@@ -20,7 +26,7 @@ class MailManager
      */
     public function __construct(MailManagerConfigInterface $config)
     {
-        $this->mailer = \Yii::$app->getMailer;
+        $this->mailer = \Yii::$app->getMailer()->compose();
         $this->init($config);
     }
 
@@ -81,10 +87,14 @@ class MailManager
         return $this;
     }
 
-
+    /**
+     * send
+     *
+     * @return void
+     */
     public function send()
     {
-        $this->mailer->compose()->send();
+        $this->mailer->send();
     }
 
 }

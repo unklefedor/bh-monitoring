@@ -46,8 +46,8 @@ class EventPushReactor implements EventReactorInterface
             $pushManager = new PushManager();
 
             $data['date'] = date('Y:m:d H:i:s');
-            $date['link'] = $event->getUrl();
-            $date['text'] = $event->getText();
+            $data['link'] = $event->getUrl();
+            $data['text'] = $event->getText();
 
             $pushMessage = PushMessageFactory::getAvailabilityMessage($data);
             $pushManager->pushToAll($pushMessage);

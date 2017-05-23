@@ -17,7 +17,6 @@ namespace app\components\tester\notifiers;
 use app\components\mailer\config\EventMailerConfig;
 use app\components\mailer\MailManager;
 use app\components\tester\checkers\TestResponseCheckerInterface;
-use app\components\tester\TesterException;
 
 /** TestEmailNotifier
  *
@@ -27,26 +26,6 @@ use app\components\tester\TesterException;
  */
 class TestEmailNotifier implements TestNotifierInterface
 {
-    private $email;
-    private $mailer;
-
-    /**
-     * TestEmailNotifier constructor.
-     *
-     * @param $email
-     *
-     * @throws TesterException
-     */
-    public function __construct($email)
-    {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            throw new TesterException(self::class.': Email Not Valid');
-        }
-
-        $this->email = $email;
-        $this->mailer = \Yii::$app->getMailer();
-    }
-
     /**
      * notify
      *

@@ -53,7 +53,7 @@ class TestGenerator
                 TestResponseCheckerFactory::getAvailabilityTestCurlResponseChecker($test),
                 TestLoggerFactory::getTestDbLogger(),
                 [
-                    TestNotifierFactory::getEmailNotifier('unklefedor@gmail.com'),
+                    TestNotifierFactory::getEmailNotifier(),
                     TestNotifierFactory::getPushNotifier()
                 ]
             );

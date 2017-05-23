@@ -29,13 +29,11 @@ class TestNotifierFactory
     /**
      * getEmailNotifier
      *
-     * @param $email
-     *
      * @return TestEmailNotifier
      */
-    public static function getEmailNotifier($email)
+    public static function getEmailNotifier()
     {
-        return new TestEmailNotifier($email);
+        return new TestEmailNotifier();
     }
 
     /**

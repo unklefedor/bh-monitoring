@@ -10,6 +10,7 @@ use app\components\pusher\PushManagerException;
 use app\components\pusher\Subscription;
 use app\components\eventer\Eventer;
 use yii\web\Controller;
+use yii\data\Pagination;
 
 /** EventerController
  *
@@ -66,7 +67,7 @@ class EventerController extends Controller
                     EventReactorFactory::getEventPushReactor()
                 ]);
 
-        } catch (EventerException $e){
+        } catch (EventerException $e) {
             return $e->getMessage();
         }
     }
@@ -81,8 +82,18 @@ class EventerController extends Controller
     public function actionLog()
     {
         $logManager = new LogManager(EventLoggerFactory::getEventDbLogger());
+        $query = $logManager->getLogs();
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages->setPageSize(7);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
 
-        return $this->render('logs', ['logs' => $logManager->getLogs()]);
+        return $this->render('log', [
+            'logs' => $models,
+            'pages' => $pages,
+        ]);
     }
 
     /**
@@ -106,7 +117,7 @@ class EventerController extends Controller
     {
         try {
             (new Subscription())->loadSubscriptionJSON(\Yii::$app->request->post('subscription'))->save();
-        } catch (PushManagerException $e){
+        } catch (PushManagerException $e) {
             return $e->getMessage();
         }
     }

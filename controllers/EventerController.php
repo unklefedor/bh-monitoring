@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\eventer\EventerException;
+use app\components\eventer\factories\EventLoggerFactory;
 use app\components\eventer\factories\EventReactorFactory;
 use app\components\pusher\PushManagerException;
 use app\components\pusher\Subscription;
@@ -78,6 +79,9 @@ class EventerController extends Controller
      */
     public function actionLog()
     {
+        $logManager = new \LogManager(EventLoggerFactory::getEventDbLogger());
+
+        return $this->render('logs', ['logs' => $logManager->getLogs()]);
     }
 
     /**

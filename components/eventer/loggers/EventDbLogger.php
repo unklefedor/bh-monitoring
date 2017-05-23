@@ -12,7 +12,22 @@
  * @version    SVN: $Id$
  * @link       http://breadhead.ru
  */
-class EventDbLogger
-{
 
+
+use yii\db\Query;
+
+/**
+ * Class EventDbLogger
+ */
+class EventDbLogger implements EventLoggerInterface
+{
+    private $tablename = 'events';
+
+    /**
+     * @return mixed
+     */
+    public function getLogs()
+    {
+        return (new Query())->select('*')->from($this->tablename)->all();
+    }
 }

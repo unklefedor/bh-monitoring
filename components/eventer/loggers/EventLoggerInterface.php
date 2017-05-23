@@ -14,5 +14,8 @@
  */
 interface EventLoggerInterface
 {
-
+    /**
+     * @return mixed
+     */
+    public function getLogs();
 }

@@ -14,5 +14,22 @@
  */
 class LogManager
 {
+    private $logger = null;
 
+    /**
+     * LogManager constructor.
+     * @param EventLoggerInterface $logger
+     */
+    public function __construct(EventLoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogs()
+    {
+        return $this->logger->getLogs();
+    }
 }

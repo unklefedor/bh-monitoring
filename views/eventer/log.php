@@ -58,7 +58,6 @@ use yii\widgets\LinkPager;
         $('body').on('click', '.more', function () {
             var container = $(this).closest('.log_container');
             var pre = container.find('div.pre');
-console.log(pre)
             if (pre.hasClass('active')) {
                 pre.removeClass('active')
             } else {

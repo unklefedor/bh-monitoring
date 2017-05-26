@@ -62,10 +62,7 @@ class EventerController extends Controller
         try {
             (new Eventer())
                 ->setEvent(\Yii::$app->request->post())
-                ->react([
-                    EventReactorFactory::getEventEmailReactor(),
-                    EventReactorFactory::getEventPushReactor()
-                ]);
+                ->react();
 
         } catch (EventerException $e) {
             return $e->getMessage();
@@ -85,7 +82,7 @@ class EventerController extends Controller
         $query = $logManager->getLogs();
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $pages->setPageSize(7);
+        $pages->setPageSize(20);
         $models = $query->offset($pages->offset)
             ->limit($pages->limit)
             ->all();

@@ -19,6 +19,7 @@ namespace app\components\eventer\reactors;
  */
 
 use app\components\eventer\EventerException;
+use app\components\eventer\LogInterface;
 use app\components\eventer\service\Event;
 use app\components\mailer\config\EventMailerConfig;
 use app\components\mailer\MailManager;
@@ -36,11 +37,11 @@ class EventEmailReactor implements EventReactorInterface
     /**
      * run
      *
-     * @param Event $event
+     * @param LogInterface|Event $event
      * @return mixed
      * @throws EventerException
      */
-    public function run(Event $event)
+    public function run(LogInterface $event)
     {
         try {
             (new MailManager(new EventMailerConfig()))

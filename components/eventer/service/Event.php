@@ -13,7 +13,9 @@
  */
 
 namespace app\components\eventer\service;
+
 use app\components\eventer\EventerException;
+use app\components\eventer\LogInterface;
 
 /** Event
  *
@@ -21,7 +23,7 @@ use app\components\eventer\EventerException;
  *
  * @package frontend\components\eventer
  */
-class Event
+class Event implements LogInterface
 {
 
     private $level = '';
@@ -33,7 +35,7 @@ class Event
     private $url = '';
     private $text = '';
     private $ip = '';
-
+    private $id;
     private $table = 'events';
 
     /**
@@ -46,43 +48,43 @@ class Event
      */
     public function load($data)
     {
-        if (isset($data['level'])){
+        if (isset($data['level'])) {
             $this->level = $data['level'];
         }
 
-        if (!isset($data['type']) || !$data['type']){
+        if (!isset($data['type']) || !$data['type']) {
             throw new EventerException('Unknown Event Type');
         }
         $this->type = $data['type'];
 
-        if (isset($data['code'])){
+        if (isset($data['code'])) {
             $this->code = $data['code'];
         }
 
-        if (isset($data['server'])){
+        if (isset($data['server'])) {
             $this->server = $data['server'];
         }
 
-        if (isset($data['request'])){
+        if (isset($data['request'])) {
             $this->request = $data['request'];
         }
 
-        if (!isset($data['timestamp']) || !$data['timestamp']){
+        if (!isset($data['timestamp']) || !$data['timestamp']) {
             throw new EventerException('Unknown Event Timestamp');
         }
         $this->timestamp = $data['timestamp'];
 
-        if (!isset($data['url']) || !$data['url']){
+        if (!isset($data['url']) || !$data['url']) {
             throw new EventerException('Unknown Event Url');
         }
         $this->url = $data['url'];
 
-        if (!isset($data['text']) || !$data['text']){
+        if (!isset($data['text']) || !$data['text']) {
             throw new EventerException('Unknown Event Text');
         }
         $this->text = $data['text'];
 
-        if (isset($data['ip'])){
+        if (isset($data['ip'])) {
             $this->ip = $data['ip'];
         }
 
@@ -107,7 +109,7 @@ class Event
             'text' => $this->text,
             'ip' => $this->ip
         ])->execute();
-
+        $this->id = \Yii::$app->db->getLastInsertID();
         return $this;
     }
 
@@ -127,4 +129,35 @@ class Event
         return $this->text;
     }
 
+    /**
+     * @return string
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
 }

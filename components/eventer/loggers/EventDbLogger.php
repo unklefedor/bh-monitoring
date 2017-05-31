@@ -31,4 +31,13 @@ class EventDbLogger implements EventLoggerInterface
     {
         return (new Query())->select('*')->from($this->tablename)->orderBy('timestamp DESC');
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getById($id)
+    {
+        return (new Query())->select('*')->from($this->tablename)->where(['id'=>$id]);
+    }
 }

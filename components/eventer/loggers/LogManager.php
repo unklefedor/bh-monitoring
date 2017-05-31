@@ -30,10 +30,18 @@ class LogManager
     }
 
     /**
+     * @param null $id
      * @return mixed
      */
-    public function getLogs()
+    public function getLogs($id = null)
     {
-        return $this->logger->getLogs();
+        if ($id) {
+            $logs = $this->logger->getById($id);
+        } else {
+            $logs = $this->logger->getLogs();
+        }
+
+        return $logs;
     }
+
 }

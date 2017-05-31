@@ -23,6 +23,11 @@ use yii\widgets\LinkPager;
         background-color: #eed3d7;
     }
 </style>
+
+<p><a href="/eventer">эвентер</a> </p>
+<?if (\Yii::$app->request->get('id')) {?>
+<p><a href="/eventer/log">все логи</a></p>
+<?}?>
 <h2>Логи</h2>
 
 <div style="width: 95%">

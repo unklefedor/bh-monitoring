@@ -14,6 +14,8 @@
 
 namespace app\commands;
 
+use app\components\eventer\eventTester\EventTesterManager;
+use app\components\eventer\rules\RuleManager;
 use app\components\tester\TestGenerator;
 use app\components\tester\tests\TestManager;
 use yii\console\Controller;
@@ -40,5 +42,11 @@ class CronController extends Controller
         foreach ($result['availability'] as $response){
             echo $response->getUrl().' | Code: '.$response->getCode().' | Time: '.$response->getDuration(). '| Size: '.$response->getSize()."\r\n";
         }
+    }
+
+    public function actionCheckevent()
+    {
+        $testEventer = new EventTesterManager(new RuleManager());
+        $testEventer->checkRules();
     }
 }

@@ -9,4 +9,5 @@
 ?>
 <p><a href="/"> Назад </a> </p>
 <p><a href="/eventer/log">Логи</a></p>
+<p><a href="/eventer/warn">Предупреждение</a></p>
 <p><a href="/eventer/rule">Правила мониторинга эветнов</a></p>

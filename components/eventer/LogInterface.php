@@ -28,4 +28,9 @@ interface LogInterface
      * @return mixed
      */
     public function getTimestamp();
+
+    /**
+     * @return mixed
+     */
+    public function getLink();
 }

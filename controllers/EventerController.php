@@ -74,15 +74,34 @@ class EventerController extends Controller
 
     /**
      * actionLog
-     *
-     * @TODO
-     *
      * @return string
      */
     public function actionLog()
     {
 
         $logManager = new LogManager(EventLoggerFactory::getEventDbLogger());
+        $id = \Yii::$app->request->get('id');
+        $query = $logManager->getLogs($id)->where(['level' => 'error']);
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages->setPageSize(20);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('log', [
+            'logs' => $models,
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function actionWarn()
+    {
+
+        $logManager = new LogManager(EventLoggerFactory::getWarnDbLogger());
         $id = \Yii::$app->request->get('id');
         $query = $logManager->getLogs($id);
         $countQuery = clone $query;
@@ -125,9 +144,8 @@ class EventerController extends Controller
     }
 
 
-    public function actionRule()
+    public function actionRule($error = null)
     {
-        $error = '';
         $ruleManager = new RuleManager();
 
         $post = \Yii::$app->request->post('new_rule', []);
@@ -141,11 +159,28 @@ class EventerController extends Controller
             }
         }
 
-        return $this->render('rule',[
+        return $this->render('rule', [
             'rules' => $ruleManager->getRules(),
             'error' => $error,
             'post' => $post
         ]);
+    }
+
+    public function actionDeleterule()
+    {
+        if (!$id = \Yii::$app->request->get('id')) {
+            throw new \Exception('id не передан');
+        }
+
+        $error = '';
+
+        $ruleManager = new RuleManager();
+        try {
+            $ruleManager->deleteRule($id);
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+        }
+        return $this->actionRule($error);
     }
 }
 

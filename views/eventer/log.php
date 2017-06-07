@@ -17,6 +17,7 @@ use yii\widgets\LinkPager;
     .pre.active {
         display: block;
     }
+
     .more {
         width: 70px;
         cursor: pointer;
@@ -24,10 +25,14 @@ use yii\widgets\LinkPager;
     }
 </style>
 
-<p><a href="/eventer">эвентер</a> </p>
-<?if (\Yii::$app->request->get('id')) {?>
-<p><a href="/eventer/log">все логи</a></p>
-<?}?>
+<p><a href="/eventer">эвентер</a></p>
+<? if (\Yii::$app->request->get('id')) { ?>
+    <? if (isset($logs[0]['server'])) { ?>
+        <p><a href="/eventer/log">все логи</a></p>
+    <? } else { ?>
+        <p><a href="/eventer/warn">все предупреждение</a></p>
+    <? } ?>
+<? } ?>
 <h2>Логи</h2>
 
 <div style="width: 95%">
@@ -43,12 +48,14 @@ use yii\widgets\LinkPager;
         <span><?= $log['type'] ?> | </span>
         <span><?= $log['text'] ?> | </span>
         <span><?= $log['code'] ?> | </span>
-        <p class="more">Подробно</p>
-        <div class="pre">
+        <? if (isset($log['server'])) { ?>
+            <p class="more">Подробно</p>
+            <div class="pre">
             <pre><?= var_export(json_decode($log['server'], true), true) ?>
                 <?= var_export(json_decode($log['request'], true), true) ?>
             </pre>
-        </div>
+            </div>
+        <? } ?>
     </div>
     <div>
         <? } ?>
@@ -66,7 +73,7 @@ use yii\widgets\LinkPager;
             if (pre.hasClass('active')) {
                 pre.removeClass('active')
             } else {
-               pre.addClass('active')
+                pre.addClass('active')
             }
         })
     })

@@ -8,6 +8,7 @@
 
 namespace app\components\eventer\factories;
 use app\components\eventer\loggers\EventDbLogger;
+use app\components\eventer\loggers\WarnDbLogger;
 
 /**
  * Class EventLoggerFactory
@@ -21,5 +22,13 @@ class EventLoggerFactory
     public static function getEventDbLogger()
     {
         return new EventDbLogger();
+    }
+
+    /**
+     * @return WarnDbLogger
+     */
+    public static function getWarnDbLogger()
+    {
+        return new WarnDbLogger();
     }
 }

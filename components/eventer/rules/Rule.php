@@ -15,6 +15,7 @@ class Rule
     private $frequency;
     private $start_period;
     private $end_period;
+    private $id;
 
 
     /**
@@ -63,6 +64,7 @@ class Rule
         $this->frequency = $data['frequency'];
         $this->start_period = $data['start_period'];
         $this->end_period = $data['end_period'];
+        $this->id = $data['id'];
     }
 
 
@@ -72,6 +74,7 @@ class Rule
     public function getAsArray()
     {
         return [
+            'id' => $this->id,
             'url' => $this->url,
             'type' => $this->type,
             'frequency' => $this->frequency,
@@ -118,5 +121,13 @@ class Rule
     public function getEndPeriod()
     {
         return $this->end_period;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

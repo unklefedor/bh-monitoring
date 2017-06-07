@@ -35,10 +35,8 @@ use app\components\pusher\PushMessageFactory;
 class EventPushReactor implements EventReactorInterface
 {
     /**
-     * run
-     *
-     * @param LogInterface|Event $event
-     * @return mixed
+     * @param LogInterface $event
+     * @return mixed|void
      * @throws EventerException
      */
     public function run(LogInterface $event)
@@ -46,7 +44,7 @@ class EventPushReactor implements EventReactorInterface
         try {
             $pushManager = new PushManager();
             $data['date'] = date('Y:m:d H:i:s');
-            $data['link'] = '/eventer/log?id='.$event->getId();
+            $data['link'] = '/eventer/'.$event->getLink();
             $data['text'] = $event->getText();
 
             $pushMessage = PushMessageFactory::getAvailabilityMessage($data);

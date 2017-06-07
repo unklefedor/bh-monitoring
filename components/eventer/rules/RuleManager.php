@@ -14,7 +14,6 @@ use yii\db\Schema;
  * Date: 26.05.17
  * Time: 18:40
  */
-
 class RuleManager
 {
 
@@ -41,7 +40,7 @@ class RuleManager
     private function getRuleEntities(Query $query)
     {
         $result = [];
-        foreach ($query->all() as $rule_data){
+        foreach ($query->all() as $rule_data) {
             $rule = new Rule();
             $rule->load($rule_data);
             $result[] = $rule;
@@ -85,7 +84,7 @@ class RuleManager
         try {
             $rule = new Rule();
             $rule->load($new_rule);
-        } catch (RuleException $e){
+        } catch (RuleException $e) {
             throw new RuleException($e->getMessage());
         }
 
@@ -111,7 +110,7 @@ class RuleManager
      */
     private function dbCheck()
     {
-        if (!$this->db->getTableSchema($this->tableName)){
+        if (!$this->db->getTableSchema($this->tableName)) {
             $this->createTable();
         }
     }
@@ -131,5 +130,13 @@ class RuleManager
             'start_period' => Schema::TYPE_INTEGER,
             'end_period' => Schema::TYPE_INTEGER
         ])->execute();
+    }
+
+    /**
+     * @param $id
+     */
+    public function deleteRule($id)
+    {
+        $this->db->createCommand()->delete($this->tableName, ['id' => $id])->execute();
     }
 }

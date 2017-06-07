@@ -160,4 +160,12 @@ class Event implements LogInterface
     {
         return $this->timestamp;
     }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+       return 'log?id='.$this->id;
+    }
 }

@@ -129,4 +129,12 @@ class Warn implements LogInterface
     {
         return $this->id;
     }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return 'warn?id='.$this->id;
+    }
 }

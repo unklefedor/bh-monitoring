@@ -25,8 +25,8 @@ use yii\helpers\ArrayHelper; ?>
             </tr>
             <tr>
                 <td><input type="text" name="new_rule[url]" value="<?=ArrayHelper::getValue($post, 'url', '')?>"></td>
-                <td><input type="text" readonly name="new_rule[type]" value="<?=ArrayHelper::getValue($post, 'type', 'order')?>"></td>
-                <td><input type="text" readonly name="new_rule[frequency]" value="<?=ArrayHelper::getValue($post, 'frequency', '15')?>"></td>
+                <td><input type="text" name="new_rule[type]" value="<?=ArrayHelper::getValue($post, 'type', 'order')?>"></td>
+                <td><input type="text" name="new_rule[frequency]" value="<?=ArrayHelper::getValue($post, 'frequency', '15')?>"></td>
                 <td><input type="text" name="new_rule[start_period]" value="<?=ArrayHelper::getValue($post, 'start_period', '12')?>"></td>
                 <td><input type="text" name="new_rule[end_period]" value="<?=ArrayHelper::getValue($post, 'end_period', '22')?>"></td>
             </tr>
@@ -54,6 +54,7 @@ use yii\helpers\ArrayHelper; ?>
         </style>
 
         <?if(isset($rules)) {
+            /** @var \app\components\eventer\rules\Rule $rule */
             foreach ($rules as $rule) {
                 ?>
                 <tr>
@@ -62,6 +63,7 @@ use yii\helpers\ArrayHelper; ?>
                     <td><?= $rule->getFrequency() ?></td>
                     <td><?= $rule->getStartPeriod() ?></td>
                     <td><?= $rule->getEndPeriod() ?></td>
+                    <td><a href="/eventer/deleterule?id=<?=$rule->getId()?>" style="cursor: pointer">Удалить</a></td>
                 </tr>
             <?
             }

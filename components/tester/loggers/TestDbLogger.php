@@ -15,8 +15,10 @@
 namespace app\components\tester\loggers;
 
 use app\components\tester\checkers\TestResponseCheckerInterface;
+use yii\data\ActiveDataProvider;
 use yii\db\cubrid\Schema;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 /** TestDbLogger
  *
@@ -49,7 +51,7 @@ class TestDbLogger implements TestLoggerInterface
      */
     private function dbCheck()
     {
-        if (!$this->db->getTableSchema($this->tableName)){
+        if (!$this->db->getTableSchema($this->tableName)) {
             $this->createTable();
         }
     }
@@ -78,7 +80,7 @@ class TestDbLogger implements TestLoggerInterface
      */
     private function setError()
     {
-        if ($this->checker->getError()){
+        if ($this->checker->getError()) {
             $this->setLog([
                 'level' => 'error',
                 'text' => $this->checker->getError()
@@ -93,7 +95,7 @@ class TestDbLogger implements TestLoggerInterface
      */
     private function setWarn()
     {
-        if ($this->checker->getWarn()){
+        if ($this->checker->getWarn()) {
             $this->setLog([
                 'level' => 'warn',
                 'text' => $this->checker->getWarn()
@@ -108,7 +110,7 @@ class TestDbLogger implements TestLoggerInterface
      */
     private function setDebug()
     {
-        if ($this->checker->getDebug()){
+        if ($this->checker->getDebug()) {
             $this->setLog([
                 'level' => 'debug',
                 'text' => $this->checker->getDebug()
@@ -137,6 +139,16 @@ class TestDbLogger implements TestLoggerInterface
     }
 
     /**
+     * @param array $filter
+     */
+    private function deleteLog(array $filter)
+    {
+        if (!empty($filter)) {
+            $this->deleteLogEntity($filter);
+        }
+    }
+
+    /**
      * addLogEntity
      *
      * @param $data
@@ -146,6 +158,14 @@ class TestDbLogger implements TestLoggerInterface
     private function addLogEntity($data)
     {
         $this->db->createCommand()->insert($this->tableName, $data)->execute();
+    }
+
+    /**
+     * @param $cond
+     */
+    private function deleteLogEntity($cond)
+    {
+        $this->db->createCommand()->delete($this->tableName, $cond)->execute();
     }
 
     /**
@@ -165,6 +185,14 @@ class TestDbLogger implements TestLoggerInterface
     }
 
     /**
+     *
+     */
+    public function removeLogs($filter)
+    {
+        $this->deleteLog($filter);
+    }
+
+    /**
      * getLogs
      *
      * @param array $filter
@@ -174,5 +202,57 @@ class TestDbLogger implements TestLoggerInterface
     public function getLogs($filter = [])
     {
         return (new Query())->select('*')->from($this->tableName)->where($filter)->all();
+    }
+
+
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params = [])
+    {
+        $query = (new Query())->select('*')->from($this->tableName)->orderBy(['id'=>SORT_DESC]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => ArrayHelper::getValue($params, 'id'),
+            'timestamp' => ArrayHelper::getValue($params, 'timestamp'),
+        ]);
+
+        $query->andFilterWhere(['like', 'text', ArrayHelper::getValue($params, 'text')])
+            ->andFilterWhere(['like', 'url', ArrayHelper::getValue($params, 'url')])
+            ->andFilterWhere(['like', 'checker', ArrayHelper::getValue($params, 'checker')])
+            ->andFilterWhere(['like', 'level', ArrayHelper::getValue($params, 'level')])
+            ->andFilterWhere(['like', 'content', ArrayHelper::getValue($params, 'content')]);
+
+        return $dataProvider;
+    }
+
+    /**
+     * getLogs
+     *
+     * @param array $filter
+     *
+     * @return mixed
+     */
+    public function getStat($filter = [])
+    {
+        $query = (new Query())->select(['url', 'checker', 'level', 'COUNT(url) AS cnt'])->from($this->tableName)->where($filter)->groupBy(['url', 'checker', 'level'])->orderBy(['cnt'=>SORT_DESC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $dataProvider;
     }
 }

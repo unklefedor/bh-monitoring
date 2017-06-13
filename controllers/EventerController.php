@@ -6,6 +6,9 @@ use app\components\eventer\EventerException;
 use app\components\eventer\factories\EventLoggerFactory;
 use app\components\eventer\factories\EventReactorFactory;
 use app\components\eventer\loggers\LogManager;
+use app\components\eventer\rules\RuleException;
+use app\components\eventer\rules\RuleManager;
+use app\components\eventer\service\Event;
 use app\components\pusher\PushManagerException;
 use app\components\pusher\Subscription;
 use app\components\eventer\Eventer;
@@ -62,10 +65,7 @@ class EventerController extends Controller
         try {
             (new Eventer())
                 ->setEvent(\Yii::$app->request->post())
-                ->react([
-                    EventReactorFactory::getEventEmailReactor(),
-                    EventReactorFactory::getEventPushReactor()
-                ]);
+                ->react();
 
         } catch (EventerException $e) {
             return $e->getMessage();
@@ -74,18 +74,39 @@ class EventerController extends Controller
 
     /**
      * actionLog
-     *
-     * @TODO
-     *
      * @return string
      */
     public function actionLog()
     {
+
         $logManager = new LogManager(EventLoggerFactory::getEventDbLogger());
-        $query = $logManager->getLogs();
+        $id = \Yii::$app->request->get('id');
+        $query = $logManager->getLogs($id)->where(['level' => 'error']);
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $pages->setPageSize(7);
+        $pages->setPageSize(20);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('log', [
+            'logs' => $models,
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function actionWarn()
+    {
+
+        $logManager = new LogManager(EventLoggerFactory::getWarnDbLogger());
+        $id = \Yii::$app->request->get('id');
+        $query = $logManager->getLogs($id);
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages->setPageSize(20);
         $models = $query->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
@@ -121,4 +142,45 @@ class EventerController extends Controller
             return $e->getMessage();
         }
     }
+
+
+    public function actionRule($error = null)
+    {
+        $ruleManager = new RuleManager();
+
+        $post = \Yii::$app->request->post('new_rule', []);
+
+        if (\Yii::$app->request->isPost && $post) {
+            try {
+                $ruleManager->AddRule($post);
+                $post = [];
+            } catch (RuleException $e) {
+                $error = $e->getMessage();
+            }
+        }
+
+        return $this->render('rule', [
+            'rules' => $ruleManager->getRules(),
+            'error' => $error,
+            'post' => $post
+        ]);
+    }
+
+    public function actionDeleterule()
+    {
+        if (!$id = \Yii::$app->request->get('id')) {
+            throw new \Exception('id не передан');
+        }
+
+        $error = '';
+
+        $ruleManager = new RuleManager();
+        try {
+            $ruleManager->deleteRule($id);
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+        }
+        return $this->actionRule($error);
+    }
 }
+

@@ -1,7 +1,7 @@
 <?php
 
 $params = require(__DIR__ . '/params.php');
-
+$db = array_merge(require(__DIR__ . '/db.php'), require(__DIR__ . '/db-local.php'));
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -37,7 +37,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => $db,
 
         'assetManager' => [
             'appendTimestamp' => true,
@@ -49,7 +49,25 @@ $config = [
             'rules' => [
             ],
         ],
-
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'ru',
+                    'fileMap' => [
+                    ],
+                ],
+            ],
+        ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'dd.MM.yyyy',
+            'datetimeFormat' => 'php:d.m.Y H:i:s',
+            'timeFormat' => 'H:i:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+        ],
 
     ],
     'params' => $params,

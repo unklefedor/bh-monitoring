@@ -16,7 +16,7 @@ class EventMailerConfig implements MailManagerConfigInterface
 {
 
     private $from = 'monitor@breadhead.ru';
-    private $to = ['unklefedor@gmail.com', 'mariokyy@breadhead.ru'];
+    private $to = ['unklefedor@gmail.com'];
     private $htmlBody;
     private $subject = 'Monitor notification';
 

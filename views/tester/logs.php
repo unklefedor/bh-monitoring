@@ -10,23 +10,30 @@
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
  * @version    SVN: $Id$
  * @link       http://breadhead.ru
- */?>
+ */
+use yii\bootstrap\ActiveForm;
+use yii\grid\GridView; ?>
 
-<a href="/">Тесты</a><br/>
-<a href="/tester/testmanager">Менеджер тестов</a>
+<div class="container">
 
-<h2>Логи</h2>
+    <a href="/">Тесты</a><br/>
+    <a href="/tester/testmanager">Менеджер тестов</a><br/>
+    <a href="/tester/logstat">Статистика ошибок</a><br/>
+    <h2><?=$this->title?></h2>
 
-<div style="width: 95%">
-    <?foreach ($logs as $log) {?>
-        <p>
-            <?foreach ($log as $field=>$value){?>
-                <?if ($field == 'timestamp'){?>
-                    <?=date('d/m/Y H:i:s',$value)?>
-                <?}else{?>
-                    <?=$value?> |
-                <?}?>
-            <?}?>
-        </p>
-    <?}?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        //'filterModel' => $searchModel,
+        'columns' => [
+            //['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'checker',
+            'url',
+            'text',
+            'level',
+            'content:html',
+            'timestamp:datetime'
+        ],
+    ]); ?>
 </div>

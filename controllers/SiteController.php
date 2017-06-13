@@ -9,13 +9,13 @@ use app\components\tester\tests\TestManager;
 use app\components\tester\tests\TestManagerException;
 use yii\web\Controller;
 
-/** TesterController
+/** SiteController
  *
  * Class SiteController
  *
  * @package app\controllers
  */
-class TesterController extends Controller
+class SiteController extends Controller
 {
     /**
      * @inheritdoc
@@ -48,7 +48,7 @@ class TesterController extends Controller
         $testManager = new TestManager();
 
         $post = \Yii::$app->request->post('new_test', []);
-        if (\Yii::$app->request->isPost && $post) {
+        if (\Yii::$app->request->isPost && $post){
             try {
                 $testManager->AddTest($post);
                 $post = [];
@@ -57,7 +57,7 @@ class TesterController extends Controller
             }
         }
 
-        return $this->render('test_manager', [
+        return $this->render('test_manager',[
             'tests' => $testManager->getTests(),
             'transports' => $testManager->getTransports(),
             'types' => $testManager->getTypes(),
@@ -74,54 +74,9 @@ class TesterController extends Controller
     public function actionLog()
     {
         $logManager = new LogManager(TestLoggerFactory::getTestDbLogger());
-        $dataProvider = $logManager->search(\Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = 20;
-
-        $this->view->title = 'Логи';
-
-        $params = \Yii::$app->request->queryParams;
-        unset($params['page']);
-        if ($params) {
-            $this->view->title .= ' по фильтру: '.implode(' + ', array_keys(\Yii::$app->request->queryParams));
-        };
 
         return $this->render('logs', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * actionLog
-     *
-     * @return string
-     */
-    public function actionLogstat()
-    {
-        $errors = [];
-        $logManager = new LogManager(TestLoggerFactory::getTestDbLogger());
-
-        if (\Yii::$app->request->post('action') == 'delete') {
-            if (\Yii::$app->request->post('date_before')) {
-                $timestamp = strtotime(\Yii::$app->request->post('date_before').' 23:59:59');
-                $logManager->removeLogs(['<=', 'timestamp',  $timestamp]);
-            } else {
-                $errors['date_before'] = 'Не указана дата';
-            }
-        };
-        $logManager = new LogManager(TestLoggerFactory::getTestDbLogger());
-        $dataProvider = $logManager->getStat(\Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = 20;
-
-        $this->view->title = 'Статистика ошибок';
-
-        $date = new \DateTime('-30 days');
-        return $this->render('logStat', [
-            'dataProvider' => $dataProvider,
-            'date' => (
-                isset($errors['date_before']) || \Yii::$app->request->post('date_before')
-                ? \Yii::$app->request->post('date_before')
-                : $date->format('Y-m-d')),
-            'errors' => $errors
+            'logs' => $logManager->getLogs()
         ]);
     }
 
@@ -138,4 +93,5 @@ class TesterController extends Controller
 
         return $this->render('index', ['result' => $result]);
     }
+
 }

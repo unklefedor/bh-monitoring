@@ -39,6 +39,12 @@ interface TestLoggerInterface
     public function setErrorState(TestResponseCheckerInterface $checker);
 
     /**
+     * @param $filter
+     *
+     * @return mixed
+     */
+    public function removeLogs($cond);
+    /**
      * getLogs
      *
      * @param array $filter
@@ -46,4 +52,18 @@ interface TestLoggerInterface
      * @return mixed
      */
     public function getLogs($filter = []);
+
+    /***
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public function search($params = []);
+
+    /**
+     * @param array $filter
+     *
+     * @return mixed
+     */
+    public function getStat($filter = []);
 }

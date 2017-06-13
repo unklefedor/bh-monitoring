@@ -15,10 +15,11 @@
 namespace app\components\eventer\reactors;
 
 /**
- * Ответ на евент
+ * Ответ на эвент
  */
 
 use app\components\eventer\EventerException;
+use app\components\eventer\LogInterface;
 use app\components\eventer\service\Event;
 use app\components\pusher\PushManager;
 use app\components\pusher\PushManagerException;
@@ -34,19 +35,16 @@ use app\components\pusher\PushMessageFactory;
 class EventPushReactor implements EventReactorInterface
 {
     /**
-     * run
-     *
-     * @param Event $event
-     * @return mixed
+     * @param LogInterface $event
+     * @return mixed|void
      * @throws EventerException
      */
-    public function run(Event $event)
+    public function run(LogInterface $event)
     {
         try {
             $pushManager = new PushManager();
-
             $data['date'] = date('Y:m:d H:i:s');
-            $data['link'] = $event->getUrl();
+            $data['link'] = '/eventer/'.$event->getLink();
             $data['text'] = $event->getText();
 
             $pushMessage = PushMessageFactory::getAvailabilityMessage($data);

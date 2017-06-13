@@ -2,9 +2,9 @@ EnableSendfile off
 
 Order deny,allow
 AuthType Basic
-AuthName "BH"
-AuthUserFile /home/b/breadhead/stat/.htpasswd
-Require valid-user
+#AuthName "BH"
+#AuthUserFile /home/b/breadhead/stat/.htpasswd
+#Require valid-user
 
 # use mod_rewrite for pretty URL support
 RewriteEngine on

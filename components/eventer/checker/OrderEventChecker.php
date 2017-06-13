@@ -36,12 +36,10 @@ class OrderEventChecker implements EventCheckerInterface
         return $this->res;
     }
 
-    /**
-     * @TODO реализовать проверку, когда понадобится
-     */
+
     private function check()
     {
-        $this->res = false;
+
     }
 
 

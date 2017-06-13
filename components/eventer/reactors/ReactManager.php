@@ -46,12 +46,11 @@ class ReactManager
      */
     private function checkEvent()
     {
-
-        if ($this->event->getLevel() == 'error') {
+        if ($this->event->level == 'error') {
            $this->activeReactors();
         }
 
-        if ($this->event->getType() == 'info') {
+        if ($this->event->level == 'info') {
             if (EventChecker::hasError(EventCheckerFactory::getEventChecker($this->event))) {
                 $this->activeReactors();
             }

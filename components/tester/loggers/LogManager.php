@@ -45,7 +45,7 @@ class LogManager
     }
 
     /**
-     * getLogs
+     * @param $params
      *
      * @return mixed
      */

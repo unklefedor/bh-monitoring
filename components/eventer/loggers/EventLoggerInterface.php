@@ -30,4 +30,11 @@ interface EventLoggerInterface
      * @return mixed
      */
     public function getById($id);
+
+    /**
+     * @param $params
+     *
+     * @return mixed
+     */
+    public function search($params);
 }

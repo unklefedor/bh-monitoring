@@ -11,11 +11,18 @@ use app\components\eventer\eventTester\EventTesterManager;
 use app\components\eventer\rules\RuleManager;
 use yii\web\Controller;
 
+/**
+ * Class TestController
+ *
+ * @package app\controllers
+ */
 class TestController extends Controller
 {
+    /**
+     *
+     */
     public function actionIndex()
     {
-
         $test = new EventTesterManager(new RuleManager());
         $test->checkRules();
     }

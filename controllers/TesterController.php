@@ -47,6 +47,8 @@ class TesterController extends Controller
         $error = '';
         $testManager = new TestManager();
 
+        $this->view->title = 'Добавить новый тест';
+
         $post = \Yii::$app->request->post('new_test', []);
         if (\Yii::$app->request->isPost && $post) {
             try {

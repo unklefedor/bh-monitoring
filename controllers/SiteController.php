@@ -41,7 +41,7 @@ class SiteController extends Controller
      * actionTestManager
      *
      * @return string
-     */
+     *
     public function actionTestmanager()
     {
         $error = '';
@@ -70,7 +70,7 @@ class SiteController extends Controller
      * actionLog
      *
      * @return string
-     */
+     *
     public function actionLog()
     {
         $logManager = new LogManager(TestLoggerFactory::getTestDbLogger());

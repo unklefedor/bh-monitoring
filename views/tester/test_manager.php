@@ -14,7 +14,7 @@
 use yii\helpers\ArrayHelper; ?>
 
 <div>
-    <h2>Добавить новый тест</h2>
+    <h2><?=$this>title?>/h2>
     <p style="color:red; font-size: 16px"><?=$error?></p>
     <form action="/site/testmanager" method="post">
         <input id="form-token" type="hidden" name="<?=Yii::$app->request->csrfParam?>" value="<?=Yii::$app->request->csrfToken?>"/>

@@ -5,6 +5,7 @@
  * Date: 23.05.17
  * Time: 13:03
  */
+use yii\grid\GridView;
 use yii\widgets\LinkPager;
 
 ?>
@@ -23,33 +24,38 @@ use yii\widgets\LinkPager;
         background-color: #eed3d7;
     }
 </style>
-<h2>Логи</h2>
+<h2><?=$this->title?></h2>
 
 <div style="width: 95%">
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        //'filterModel' => $searchModel,
+        'columns' => [
+            'timestamp:datetime',
+            'id',
+            'ip',
+            'api_id',
+            'url',
+            'level',
+            'type',
+            'text',
+            'code',
+            [
+                'header' => 'Подробно',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if ($data['server']) {
+                        return '<p class="more js-more">Подробно</p><div class="pre"><pre>'.
+                        var_export(json_decode($data['server'], true), true).
+                        var_export(json_decode($data['request'], true), true).
+                        '</pre></div>';
+                    } else {
+                        return '';
+                    }
 
-    <? foreach ($logs as $log) { ?>
-    <div class="log_container">
-        <span><?= date('d/m/Y H:i:s', $log['timestamp']) ?> | </span>
-        <span><?= $log['ip'] ?> | </span>
-        <span><?= $log['api_id'] ?> | </span>
-        <span><?= $log['url'] ?> | </span>
-        <span><?= $log['level'] ?> | </span>
-        <span><?= $log['type'] ?> | </span>
-        <span><?= $log['text'] ?> | </span>
-        <span><?= $log['code'] ?> | </span>
-        <? if (isset($log['server'])) { ?>
-            <p class="more">Подробно</p>
-            <div class="pre">
-            <pre><?= var_export(json_decode($log['server'], true), true) ?>
-                <?= var_export(json_decode($log['request'], true), true) ?>
-            </pre>
-            </div>
-        <? } ?>
-    </div>
-    <div>
-        <? } ?>
-        <? echo LinkPager::widget([
-            'pagination' => $pages,
-        ]); ?>
-    </div>
+                }
+            ],
+
+        ],
+    ]); ?>
 </div>

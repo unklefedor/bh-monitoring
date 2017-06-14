@@ -80,18 +80,19 @@ class EventerController extends Controller
     {
 
         $logManager = new LogManager(EventLoggerFactory::getEventDbLogger());
-        $id = \Yii::$app->request->get('id');
-        $query = $logManager->getLogs($id)->where(['level' => 'error']);
-        $countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $pages->setPageSize(20);
-        $models = $query->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
+        $dataProvider = $logManager->search(\Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 20;
+
+        $this->view->title = 'Логи';
+
+        $params = \Yii::$app->request->queryParams;
+        unset($params['page']);
+        if ($params) {
+            $this->view->title .= ' по фильтру: '.implode(' + ', array_keys(\Yii::$app->request->queryParams));
+        };
 
         return $this->render('log', [
-            'logs' => $models,
-            'pages' => $pages,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -102,18 +103,20 @@ class EventerController extends Controller
     {
 
         $logManager = new LogManager(EventLoggerFactory::getWarnDbLogger());
-        $id = \Yii::$app->request->get('id');
-        $query = $logManager->getLogs($id);
-        $countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $pages->setPageSize(20);
-        $models = $query->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
+
+        $dataProvider = $logManager->search(\Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 20;
+
+        $this->view->title = 'Предупреждения';
+
+        $params = \Yii::$app->request->queryParams;
+        unset($params['page']);
+        if ($params) {
+            $this->view->title .= ' по фильтру: '.implode(' + ', array_keys(\Yii::$app->request->queryParams));
+        };
 
         return $this->render('log', [
-            'logs' => $models,
-            'pages' => $pages,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

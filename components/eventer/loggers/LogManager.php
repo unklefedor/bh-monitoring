@@ -16,6 +16,11 @@
 
 namespace app\components\eventer\loggers;
 
+/**
+ * Class LogManager
+ *
+ * @package app\components\eventer\loggers
+ */
 class LogManager
 {
     private $logger = null;
@@ -44,4 +49,13 @@ class LogManager
         return $logs;
     }
 
+    /**
+     * @param $params
+     *
+     * @return mixed
+     */
+    public function search($params)
+    {
+        return $this->logger->search($params);
+    }
 }

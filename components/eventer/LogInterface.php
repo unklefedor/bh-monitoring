@@ -33,4 +33,18 @@ interface LogInterface
      * @return mixed
      */
     public function getLink();
+
+    /**
+     * getLevel
+     *
+     * @return mixed
+     */
+    public function getLevel();
+
+    /**
+     * getType
+     *
+     * @return mixed
+     */
+    public function getType();
 }

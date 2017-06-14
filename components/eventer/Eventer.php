@@ -25,6 +25,7 @@
 namespace app\components\eventer;
 
 use app\components\eventer\reactors\EventReactorInterface;
+use app\components\eventer\reactors\ReactManager;
 use app\components\eventer\service\EventReciever;
 
 /** Eventer
@@ -53,15 +54,17 @@ class Eventer
 
     /**
      * react
-     *
-     * @param array $reactors
-     *
      * @return void
+     * @internal param array $reactors
      */
-    public function react($reactors = [])
+    public function react()
     {
-        foreach ($reactors as $reactor){
-            $this->runReactor($reactor);
+        $reactManager = new ReactManager($this->event);
+
+        if ($reactors = $reactManager->returnReactors()) {
+            foreach ($reactors as $reactor) {
+                $this->runReactor($reactor);
+            }
         }
     }
 

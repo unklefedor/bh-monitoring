@@ -19,6 +19,7 @@ use app\components\eventer\reactors\EventPushReactor;
  */
 class EventReactorFactory
 {
+
     /**
      * getEventEmailReactor
      *

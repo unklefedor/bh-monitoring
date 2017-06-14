@@ -14,6 +14,7 @@
 
 namespace app\components\eventer\reactors;
 
+use app\components\eventer\LogInterface;
 use app\components\eventer\service\Event;
 
 /**
@@ -26,9 +27,8 @@ interface EventReactorInterface
     /**
      * run
      *
-     * @param Event $event
-     *
+     * @param LogInterface|Event $event
      * @return mixed
      */
-    public function run(Event $event);
+    public function run(LogInterface $event);
 }

@@ -1,28 +1,22 @@
 <?php
-
 /**
- * EventDbLogger.php
- *
- * PHP version 7
- *
- * @category   CategoryName
- * @package    PackageName
- * @author     unklefedor
- * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    SVN: $Id$
- * @link       http://breadhead.ru
+ * Created by PhpStorm.
+ * User: kukushkina
+ * Date: 31.05.17
+ * Time: 19:33
  */
 
 namespace app\components\eventer\loggers;
-
 use yii\db\Query;
 
 /**
- * Class EventDbLogger
+ * Class WarnDbLogger
+ * @package app\components\eventer\loggers
  */
-class EventDbLogger implements EventLoggerInterface
+class WarnDbLogger implements EventLoggerInterface
 {
-    private $tablename = 'events';
+
+    private $tablename = 'warns';
 
     /**
      * @return mixed

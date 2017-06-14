@@ -24,4 +24,10 @@ interface EventLoggerInterface
      * @return mixed
      */
     public function getLogs();
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getById($id);
 }

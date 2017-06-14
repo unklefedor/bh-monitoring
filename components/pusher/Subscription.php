@@ -24,6 +24,7 @@ use yii\db\Query;
  */
 class Subscription
 {
+    private $id;
     private $endpoint;
     private $p256dh;
     private $auth_key;
@@ -66,13 +67,17 @@ class Subscription
     {
         $hash = md5($this->endpoint.$this->p256dh.$this->auth_key);
 
-        if (!(new Query())->select('*')->from(PushManager::$SUBSCRIPTIONS_TABLE)->where(['hash'=>$hash])->one()) {
+        $record = (new Query())->select('*')->from(PushManager::$SUBSCRIPTIONS_TABLE)->where(['hash'=>$hash])->one();
+        if (!$record) {
             try {
                 \Yii::$app->getDb()->createCommand()->insert(PushManager::$SUBSCRIPTIONS_TABLE, ['endpoint' => $this->endpoint, 'p256dh' => $this->p256dh, 'auth_key' => $this->auth_key, 'hash' => $hash])->execute();
+                $record = (new Query())->select('*')->from(PushManager::$SUBSCRIPTIONS_TABLE)->where(['hash'=>$hash])->one();
             } catch (\Exception $e) {
                 throw new PushManagerException($e->getMessage());
             }
-        }
+        };
+
+        $this->id = $record['id'];
 
         return $this;
     }
@@ -129,6 +134,14 @@ class Subscription
     private function setAuthKey($auth)
     {
         $this->auth_key = $auth;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

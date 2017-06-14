@@ -17,6 +17,7 @@ namespace app\components\tester\tests;
 use yii\db\Connection;
 use yii\db\Query;
 use yii\db\Schema;
+use yii\helpers\ArrayHelper;
 
 /** TestManager
  *
@@ -72,7 +73,7 @@ class TestManager
     private function getTestEntities(Query $query)
     {
         $result = [];
-        foreach ($query->all() as $test_data){
+        foreach ($query->all() as $test_data) {
             $test = new Test();
             $test->load($test_data);
             $result[] = $test;
@@ -119,18 +120,40 @@ class TestManager
      * @return void
      * @throws TestManagerException
      */
-    public function AddTest($new_test)
+    public function addTest($new_test)
     {
         $this->dbCheck();
 
         try {
             $test = new Test();
             $test->load($new_test);
-        } catch (TestManagerException $e){
+        } catch (TestManagerException $e) {
             throw new TestManagerException($e->getMessage());
         }
 
         $this->saveTest($test);
+    }
+
+    /**
+     * @param $params
+     *
+     * @return Query
+     */
+    public function search($params)
+    {
+        $query = $this->getQuery();
+        $query->andFilterWhere([
+            'id' => ArrayHelper::getValue($params, 'id'),
+            'time_limit' => ArrayHelper::getValue($params, 'time_limit'),
+            'get_content' => ArrayHelper::getValue($params, 'get_content'),
+        ]);
+
+        $query->andFilterWhere(['transport', 'text', ArrayHelper::getValue($params, 'transport')])
+            ->andFilterWhere(['like', 'url', ArrayHelper::getValue($params, 'url')])
+            ->andFilterWhere(['like', 'type', ArrayHelper::getValue($params, 'type')])
+            ->andFilterWhere(['like', 'positive_code', ArrayHelper::getValue($params, 'positive_code')]);
+
+        return $query->all();
     }
 
     /**
@@ -152,7 +175,7 @@ class TestManager
      */
     private function dbCheck()
     {
-        if (!$this->db->getTableSchema($this->tableName)){
+        if (!$this->db->getTableSchema($this->tableName)) {
             $this->createTable();
         }
     }

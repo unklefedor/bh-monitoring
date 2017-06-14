@@ -140,7 +140,8 @@ class EventerController extends Controller
     public function actionRegistersubscription()
     {
         try {
-            (new Subscription())->loadSubscriptionJSON(\Yii::$app->request->post('subscription'))->save();
+            $result = (new Subscription())->loadSubscriptionJSON(\Yii::$app->request->post('subscription'))->save();
+            return json_encode(['result' => $result->getId()]);
         } catch (PushManagerException $e) {
             return $e->getMessage();
         }

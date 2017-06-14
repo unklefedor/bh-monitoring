@@ -22,6 +22,7 @@ namespace app\components\tester\tests;
  */
 class Test implements TestInterface
 {
+    private $id = 0;
     private $url = '';
     private $transport = '';
     private $type = '';
@@ -51,6 +52,7 @@ class Test implements TestInterface
      */
     private function setData($data)
     {
+        $this->id = $data['id'];
         $this->url = $data['url'];
         $this->transport = $data['transport'];
         $this->type = $data['type'];
@@ -67,6 +69,7 @@ class Test implements TestInterface
     public function getAsArray()
     {
         return [
+            'id' => $this->id,
             'url' => $this->url,
             'transport' => $this->transport,
             'type' => $this->type,
@@ -85,25 +88,35 @@ class Test implements TestInterface
      */
     private function checkData($data)
     {
-        if (!isset($data['url']) || !filter_var($data['url'], FILTER_VALIDATE_URL)){
+        if (!isset($data['url']) || !filter_var($data['url'], FILTER_VALIDATE_URL)) {
             throw new TestManagerException('Url Error');
         }
 
-        if (!isset($data['transport'])){
+        if (!isset($data['transport'])) {
             throw new TestManagerException('Transport Error');
         }
 
-        if (!isset($data['type'])){
+        if (!isset($data['type'])) {
             throw new TestManagerException('Type Error');
         }
 
-        if (!isset($data['positive_code']) || !is_numeric($data['positive_code']) || $data['positive_code'] <= 0){
+        if (!isset($data['positive_code']) || !is_numeric($data['positive_code']) || $data['positive_code'] <= 0) {
             throw new TestManagerException('Positive Code Error');
         }
 
-        if (!isset($data['time_limit']) || !is_numeric($data['time_limit']) || $data['time_limit'] <= 0){
+        if (!isset($data['time_limit']) || !is_numeric($data['time_limit']) || $data['time_limit'] <= 0) {
             throw new TestManagerException('Time Limit Error');
         }
+    }
+
+    /**
+     * getId
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

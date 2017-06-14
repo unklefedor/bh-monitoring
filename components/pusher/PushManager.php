@@ -39,7 +39,7 @@ class PushManager
     public function pushToAll(PushMessageInterface $message)
     {
         $releaser = new PushReleaser();
-        foreach ((new Query())->select('*')->from(self::$SUBSCRIPTIONS_TABLE)->all() as $subscriptionData){
+        foreach ((new Query())->select('*')->from(self::$SUBSCRIPTIONS_TABLE)->all() as $subscriptionData) {
             $subscription = (new Subscription())->loadSubscription(
                 $subscriptionData['endpoint'],
                 $subscriptionData['p256dh'],
@@ -48,5 +48,15 @@ class PushManager
 
             $releaser->releasePush($subscription, $message);
         }
+    }
+
+    /**
+     * @param PushMessageInterface $message
+     * @param Subscription         $subscription
+     */
+    public function pushTo(PushMessageInterface $message, Subscription $subscription)
+    {
+        $releaser = new PushReleaser();
+        $releaser->releasePush($subscription, $message);
     }
 }

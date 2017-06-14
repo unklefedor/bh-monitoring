@@ -2,11 +2,16 @@
 
 namespace app\controllers;
 
+use app\components\pusher\PushManager;
+use app\components\pusher\Subscription;
+use app\components\pusher\SubscriptionManager;
 use app\components\tester\factories\TestLoggerFactory;
 use app\components\tester\loggers\LogManager;
 use app\components\tester\TestGenerator;
+use app\components\tester\tests\Test;
 use app\components\tester\tests\TestManager;
 use app\components\tester\tests\TestManagerException;
+use yii\db\Query;
 use yii\web\Controller;
 
 /** TesterController
@@ -47,17 +52,41 @@ class TesterController extends Controller
         $error = '';
         $testManager = new TestManager();
 
-        $this->view->title = 'Добавить новый тест';
+        $action = \Yii::$app->request->post('action');
+        if ($action == 'add') {
+            $post = \Yii::$app->request->post('new_test', []);
+            if (\Yii::$app->request->isPost && $post) {
+                try {
+                    $testManager->addTest($post);
+                    $post = [];
+                } catch (TestManagerException $e) {
+                    $error = $e->getMessage();
+                }
+            }
+        } elseif ($action == 'subscribe') {
+            $post = \Yii::$app->request->post('form', []);
+            parse_str($post, $form);
+            if (\Yii::$app->request->isPost && $form) {
+                try {
+                    $subsManager = new SubscriptionManager();
+                    $tests = $testManager->search(['id' => $form['subscribe_test_id']]);
 
-        $post = \Yii::$app->request->post('new_test', []);
-        if (\Yii::$app->request->isPost && $post) {
-            try {
-                $testManager->AddTest($post);
-                $post = [];
-            } catch (TestManagerException $e) {
-                $error = $e->getMessage();
+                    $record = (new Subscription())->loadSubscriptionJSON(\Yii::$app->request->post('subscription'))->save();
+
+                    foreach ($tests as $test) {
+                        $testInt = new Test();
+                        $testInt->load($test);
+                        $subsManager->setSubscriberForTest($testInt, $record);
+
+                    };
+                    $post = [];
+                } catch (TestManagerException $e) {
+                    $error = $e->getMessage();
+                }
             }
         }
+
+        $this->view->title = 'Добавить новый тест';
 
         return $this->render('test_manager', [
             'tests' => $testManager->getTests(),

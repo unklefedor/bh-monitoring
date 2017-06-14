@@ -14,10 +14,10 @@
 use yii\helpers\ArrayHelper; ?>
 
 <div>
-    <h2><?=$this>title?>/h2>
+    <h2><?=$this->title?></h2>
     <p style="color:red; font-size: 16px"><?=$error?></p>
-    <form action="/site/testmanager" method="post">
-        <input id="form-token" type="hidden" name="<?=Yii::$app->request->csrfParam?>" value="<?=Yii::$app->request->csrfToken?>"/>
+    <?$form = \yii\bootstrap\ActiveForm::begin()?>
+        <input type="hidden" name="action" value="add">
         <table>
             <tr>
                 <th>Url</th>
@@ -27,6 +27,7 @@ use yii\helpers\ArrayHelper; ?>
                 <th>Time limit</th>
             </tr>
             <tr>
+                <td></td>
                 <td><input type="text" name="new_test[url]" value="<?=ArrayHelper::getValue($post, 'url', '')?>"></td>
                 <td><input type="text" readonly name="new_test[transport]" value="<?=ArrayHelper::getValue($post, 'transport', 'curl')?>"></td>
                 <td><input type="text" readonly name="new_test[type]" value="<?=ArrayHelper::getValue($post, 'type', 'availability')?>"></td>
@@ -35,11 +36,13 @@ use yii\helpers\ArrayHelper; ?>
             </tr>
         </table>
         <input type="submit" value="Добавить">
-    </form>
+    <?$form->end();?>
 
     <h2>Тесты</h2>
+    <?$form = \yii\bootstrap\ActiveForm::begin(['id' => 'js-test-subscribe'])?>
     <table>
         <tr>
+            <th></th>
             <th>Url</th>
             <th>Transport</th>
             <th>Type</th>
@@ -57,6 +60,9 @@ use yii\helpers\ArrayHelper; ?>
         </style>
         <?foreach ($tests as $test){?>
             <tr>
+                <td>
+                    <input type="checkbox" name="subscribe_test_id[]" value="<?=$test->getId();?>">
+                </td>
                 <td><?=$test->getUrl();?></td>
                 <td><?=$test->getTransport()?></td>
                 <td><?=$test->getType()?></td>
@@ -65,4 +71,6 @@ use yii\helpers\ArrayHelper; ?>
             </tr>
         <?}?>
     </table>
+    <button type="submit" value="go">Подписаться</button>
+    <?$form->end();?>
 </div>

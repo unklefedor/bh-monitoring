@@ -17,8 +17,11 @@ namespace app\components\tester\notifiers;
 use app\components\pusher\PushManager;
 use app\components\pusher\PushManagerException;
 use app\components\pusher\PushMessageFactory;
+use app\components\pusher\Subscription;
+use app\components\pusher\SubscriptionManager;
 use app\components\tester\checkers\TestResponseCheckerInterface;
 use app\components\tester\TesterException;
+use app\components\tester\tests\TestInterface;
 
 /**
  * TestPushNotifier
@@ -29,6 +32,13 @@ use app\components\tester\TesterException;
  */
 class TestPushNotifier implements TestNotifierInterface
 {
+    private $test;
+
+    public function __construct(TestInterface $test)
+    {
+        $this->test = $test;
+    }
+
     /**
      * notify
      *
@@ -58,7 +68,11 @@ class TestPushNotifier implements TestNotifierInterface
             $pushMessage = PushMessageFactory::getAvailabilityMessage($data);
 
             $pushManager = new PushManager();
-            $pushManager->pushToAll($pushMessage);
+            $subsManager = new SubscriptionManager();
+            $subscriptions = $subsManager->getSubscribersForTest($this->test);
+            foreach ($subscriptions as $subscription) {
+                $pushManager->pushTo($pushMessage, $subscription);
+            }
         } catch (PushManagerException $e) {
             throw new TesterException('PushMessage Init Error');
         }

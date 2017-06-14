@@ -31,6 +31,13 @@ interface TestInterface
     public function load($data);
 
     /**
+     * getId
+     *
+     * @return mixed
+     */
+    public function getId();
+
+    /**
      * getUrl
      *
      * @return mixed

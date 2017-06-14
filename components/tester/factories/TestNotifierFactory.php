@@ -16,6 +16,7 @@ namespace app\components\tester\factories;
 
 use app\components\tester\notifiers\TestEmailNotifier;
 use app\components\tester\notifiers\TestPushNotifier;
+use app\components\tester\tests\TestInterface;
 
 /**
  * TestNotifierFactory
@@ -41,8 +42,8 @@ class TestNotifierFactory
      *
      * @return TestPushNotifier
      */
-    public static function getPushNotifier()
+    public static function getPushNotifier(TestInterface $test)
     {
-        return new TestPushNotifier();
+        return new TestPushNotifier($test);
     }
 }

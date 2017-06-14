@@ -54,7 +54,7 @@ class TestGenerator
                 TestLoggerFactory::getTestDbLogger(),
                 [
                     TestNotifierFactory::getEmailNotifier(),
-                    TestNotifierFactory::getPushNotifier()
+                    TestNotifierFactory::getPushNotifier($test)
                 ]
             );
 

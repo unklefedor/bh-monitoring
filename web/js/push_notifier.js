@@ -6,6 +6,7 @@ const applicationServerPublicKey = 'BLzNMA6TLEF9Rs9FSJKgPyrBVFmQZXo1_oWPKKSQqRNU
 
 let isSubscribed = false;
 let swRegistration = null;
+var subscrip = null;
 
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -59,6 +60,7 @@ function subscribeUser() {
 
             updateSubscriptionOnServer(subscription);
             isSubscribed = true;
+            subscrip = subscription;
         })
         .catch(function(err) {
             console.log('Failed to subscribe the user: ', err);
@@ -105,6 +107,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
         .catch(function(error) {
             console.error('Service Worker Error', error);
         });
+
 } else {
     console.warn('Push messaging is not supported');
 }

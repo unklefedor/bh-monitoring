@@ -20,13 +20,6 @@ use app\components\eventer\reactors\EventPushReactor;
 class EventReactorFactory
 {
 
-    public static function getReactor($event)
-    {
-        $reactors = [];
-
-
-    }
-
     /**
      * getEventEmailReactor
      *

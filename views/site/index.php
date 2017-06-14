@@ -1,5 +1,10 @@
-
 <div>
-    <h2>Последние ошибки</h2>
+    <h2>Тест доступности</h2>
 
-</div>
+    <? /** @var TestResponseInterface $res */
+    use app\components\tester\responses\TestResponseInterface;
+
+    foreach ($result['availability'] as $res){?>
+        <p><?=$res->getUrl()?> | Code: <?=$res->getCode()?> | Time: <?=$res->getDuration()?> | Size: <?=$res->getSize()?><p>
+    <?}?>
+</p>

@@ -11,6 +11,7 @@ namespace app\components\eventer\reactors;
 use app\components\eventer\checker\EventChecker;
 use app\components\eventer\checker\EventCheckerFactory;
 use app\components\eventer\factories\EventReactorFactory;
+use app\components\eventer\LogInterface;
 
 /**
  * Class ReactManager
@@ -18,6 +19,7 @@ use app\components\eventer\factories\EventReactorFactory;
  */
 class ReactManager
 {
+    /** @var LogInterface $event */
     private $event;
     private $reactors = [];
 
@@ -25,7 +27,7 @@ class ReactManager
      * ReactManager constructor.
      * @param $event
      */
-    public function __construct($event)
+    public function __construct(LogInterface $event)
     {
         $this->event = $event;
         $this->checkEvent();
@@ -46,11 +48,11 @@ class ReactManager
      */
     private function checkEvent()
     {
-        if ($this->event->level == 'error') {
+        if ($this->event->getLevel() == 'error') {
            $this->activeReactors();
         }
 
-        if ($this->event->level == 'info') {
+        if ($this->event->getType() == 'info') {
             if (EventChecker::hasError(EventCheckerFactory::getEventChecker($this->event))) {
                 $this->activeReactors();
             }

@@ -17,22 +17,12 @@ use yii\widgets\LinkPager;
     .pre.active {
         display: block;
     }
-
     .more {
         width: 70px;
         cursor: pointer;
         background-color: #eed3d7;
     }
 </style>
-
-
-<? if (\Yii::$app->request->get('id')) { ?>
-    <? if (isset($logs[0]['server'])) { ?>
-        <p><a href="/eventer/log">все логи</a></p>
-    <? } else { ?>
-        <p><a href="/eventer/warn">все предупреждение</a></p>
-    <? } ?>
-<? } ?>
 <h2>Логи</h2>
 
 <div style="width: 95%">

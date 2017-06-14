@@ -14,26 +14,22 @@
 use yii\bootstrap\ActiveForm;
 use yii\grid\GridView; ?>
 
-<div class="container">
 
-    <a href="/">Тесты</a><br/>
-    <a href="/tester/testmanager">Менеджер тестов</a><br/>
-    <a href="/tester/logstat">Статистика ошибок</a><br/>
-    <h2><?=$this->title?></h2>
+<h2><?=$this->title?></h2>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    //'filterModel' => $searchModel,
+    'columns' => [
+        //['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'checker',
-            'url',
-            'text',
-            'level',
-            'content:html',
-            'timestamp:datetime'
-        ],
-    ]); ?>
-</div>
+        'id',
+        'checker',
+        'url',
+        'text',
+        'level',
+        'content:html',
+        'timestamp:datetime'
+    ],
+]); ?>
+

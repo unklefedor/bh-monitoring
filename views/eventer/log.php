@@ -25,7 +25,7 @@ use yii\widgets\LinkPager;
     }
 </style>
 
-<p><a href="/eventer">эвентер</a></p>
+
 <? if (\Yii::$app->request->get('id')) { ?>
     <? if (isset($logs[0]['server'])) { ?>
         <p><a href="/eventer/log">все логи</a></p>
@@ -39,7 +39,6 @@ use yii\widgets\LinkPager;
 
     <? foreach ($logs as $log) { ?>
     <div class="log_container">
-
         <span><?= date('d/m/Y H:i:s', $log['timestamp']) ?> | </span>
         <span><?= $log['ip'] ?> | </span>
         <span><?= $log['api_id'] ?> | </span>
@@ -64,17 +63,3 @@ use yii\widgets\LinkPager;
         ]); ?>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('body').on('click', '.more', function () {
-            var container = $(this).closest('.log_container');
-            var pre = container.find('div.pre');
-            if (pre.hasClass('active')) {
-                pre.removeClass('active')
-            } else {
-                pre.addClass('active')
-            }
-        })
-    })
-</script>

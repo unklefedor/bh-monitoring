@@ -76,7 +76,7 @@ function unsubscribeUser() {
             console.log('Error unsubscribing', error);
         })
         .then(function() {
-            updateSubscriptionOnServer(null);
+            //updateSubscriptionOnServer(null);
 
             console.log('User is unsubscribed.');
             isSubscribed = false;
@@ -86,6 +86,7 @@ function unsubscribeUser() {
 
 function initialise() {
     if (isSubscribed) {
+
     } else {
         subscribeUser();
     }
@@ -94,12 +95,12 @@ function initialise() {
 if ('serviceWorker' in navigator && 'PushManager' in window) {
     console.log('Service Worker and Push is supported');
 
-    navigator.serviceWorker.register('js/sw.js?='+(new Date().getTime()))
+    navigator.serviceWorker.register('/js/sw.js?='+(new Date().getTime()))
         .then(function(swReg) {
             console.log('Service Worker is registered', swReg);
 
             swRegistration = swReg;
-            initialise();
+            /*initialise();*/
         })
         .catch(function(error) {
             console.error('Service Worker Error', error);

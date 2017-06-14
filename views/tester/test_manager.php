@@ -13,8 +13,6 @@
  */
 use yii\helpers\ArrayHelper; ?>
 
-<a href="/">Тесты</a><br/>
-<a href="/tester/log">Логи</a>
 <div>
     <h2>Добавить новый тест</h2>
     <p style="color:red; font-size: 16px"><?=$error?></p>

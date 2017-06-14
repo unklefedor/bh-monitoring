@@ -19,9 +19,11 @@ class PushNotifierAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-        'js/push_notifier.js'
+        'js/push_notifier.js',
+        'js/main.js'
     ];
     public $depends = [
+        'yii\web\JqueryAsset',
         'app\assets\AppAsset',
     ];
 }

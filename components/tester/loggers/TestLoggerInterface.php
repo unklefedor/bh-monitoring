@@ -39,11 +39,12 @@ interface TestLoggerInterface
     public function setErrorState(TestResponseCheckerInterface $checker);
 
     /**
-     * @param $filter
+     * @param $cond
      *
      * @return mixed
      */
     public function removeLogs($cond);
+
     /**
      * getLogs
      *
